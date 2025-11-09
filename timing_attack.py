@@ -26,27 +26,28 @@ def connect_and_send(flag_attempt):
         # Receive initial prompt
         response = s.recv(4096).decode()
         
-        # Measure time for verification
-        start = time.time()
-        
         # Send flag attempt
         s.sendall((flag_attempt + '\n').encode())
         
         # Receive response
         response = s.recv(4096).decode()
-        end = time.time()
         
         s.close()
         
-        elapsed = end - start
+        # Parse the server's reported verification time
+        server_time = 0.0
+        if "Verification time:" in response:
+            import re
+            match = re.search(r'Verification time:\s*([\d.]+)s', response)
+            if match:
+                server_time = float(match.group(1))
         
         # Check if we got the flag (look for success indicators)
-        if ("✅" in response or "CORRECT" in response.upper() or 
-            "Access granted" in response or "SUCCESS" in response.upper() or
-            "You got it" in response or "congratulations" in response.lower()):
-            return elapsed, response, True
+        is_correct = ("✅" in response or "CORRECT" in response.upper() or 
+                     "Access granted" in response or "SUCCESS" in response.upper() or
+                     "You got it" in response or "congratulations" in response.lower())
         
-        return elapsed, response, False
+        return server_time, response, is_correct
     except Exception as e:
         print(f"Connection error: {e}")
         return 0, "", False
