@@ -42,10 +42,13 @@ def connect_and_send(flag_attempt):
             if match:
                 server_time = float(match.group(1))
         
-        # Check if we got the flag (look for success indicators)
-        is_correct = ("✅" in response or "CORRECT" in response.upper() or 
-                     "Access granted" in response or "SUCCESS" in response.upper() or
-                     "You got it" in response or "congratulations" in response.lower())
+        # Check if we got the flag (look for success indicators, but exclude INCORRECT)
+        is_correct = ("✅" in response or 
+                     ("CORRECT" in response.upper() and "INCORRECT" not in response.upper()) or 
+                     "Access granted" in response or 
+                     ("SUCCESS" in response.upper() and "UNSUCCESSFUL" not in response.upper()) or
+                     "You got it" in response or 
+                     "congratulations" in response.lower())
         
         return server_time, response, is_correct
     except Exception as e:
