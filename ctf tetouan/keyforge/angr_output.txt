@@ -1,7 +1,0 @@
-Loading binary...
-Creating initial state...
-Traceback (most recent call last):
-  File "/workspaces/ctf/angr_final.py", line 40, in <module>
-    state.posix.stdin.store(0, flag)
-    ^^^^^^^^^^^^^^^^^^^^^^^
-AttributeError: 'SimPacketsStream' object has no attribute 'store'. Did you mean: 'state'?
