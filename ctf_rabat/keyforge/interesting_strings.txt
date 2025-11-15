@@ -1,0 +1,4 @@
+Interesting Strings from KeyForge
+========================================
+
+PROT_EXEC|PROT_WRITE failed.

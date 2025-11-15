@@ -1,0 +1,32 @@
+KeyForge Analysis Summary
+==============================
+
+File Info:
+  KeyForge: ELF 64-bit LSB executable, x86-64, version 1 (SYSV), statically linked, no section header
+
+UPX Test:
+  RC: 0, STDOUT:                        Ultimate Packer for eXecutables
+                          Copyright (C) 1996 - 2024
+UPX 4.2.2       Markus Oberhumer, Laszlo Molnar & John Reiser    Jan 3rd 2024
+
+testing KeyForge [OK]
+
+Tested 1 file.
+, STDERR: 
+
+Format Test Results:
+  VoidBox format       | VoidBox{test}                       | RC:1 | Enter license key: Invalid format.
+  DeepSec format       | DeepSec{test}                       | RC:1 | Enter license key: Invalid format.
+  CTF format           | CTF{test}                           | RC:1 | Enter license key: Invalid format.
+  flag format          | flag{test}                          | RC:1 | Enter license key: Invalid format.
+  plain text           | test                                | RC:1 | Enter license key: Invalid format.
+  license key format   | AAAA-BBBB-CCCC-DDDD                 | RC:1 | Enter license key: Invalid format.
+  empty VoidBox        | VoidBox{}                           | RC:1 | Enter license key: Invalid format.
+  empty DeepSec        | DeepSec{}                           | RC:1 | Enter license key: Invalid format.
+  single char          | VoidBox{a}                          | RC:1 | Enter license key: Invalid format.
+  single char DeepSec  | DeepSec{a}                          | RC:1 | Enter license key: Invalid format.
+  VoidBox 27 chars     | VoidBox{aaaaaaaaaaaaaaaaaaaaaaaaaaa} | RC:1 | Enter license key: License validation failed.
+  DeepSec 27 chars     | DeepSec{aaaaaaaaaaaaaaaaaaaaaaaaaaa} | RC:1 | Enter license key: Invalid format.
+
+Interesting Strings (1):
+  PROT_EXEC|PROT_WRITE failed.
